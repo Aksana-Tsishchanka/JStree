@@ -5,49 +5,67 @@ var tree = JSON.parse(json);
 
 function startBuildingTree(root) {
 
-  var ul = document.createElement('ul');
-  ul.className = 'Container';
+    var ul = document.createElement('ul');
+    ul.className = 'Container';
   
-  buildTree(root, ul);
-  document.body.appendChild(ul);
+    buildTree(root, ul, 0);
+    document.body.appendChild(ul);
 }
 
-function buildTree(treeItem, htmlEl) {
+function buildTree(treeItem, htmlEl, level, isLast) {
+    level++;
+
+    var li = document.createElement('li');
+    li.className = 'Node';
   
-  var li = document.createElement('li');
-  li.className = 'Node';
-  li.className = 'ExpandLeaf'; 
-
-  var divExp = document.createElement('div');
-  divExp.className = 'Expand';
-  var divContent = document.createElement('div');
-  divContent.className = 'Content';
-  divContent.appendChild(document.createTextNode(treeItem.text));
-  li.appendChild(divExp);
-  li.appendChild(divContent);
-  htmlEl.appendChild(li);
-
-  if (treeItem.children) {
-    console.log(treeItem.children.length);
-    var childContainer = document.createElement('ul');
-    childContainer.className = 'Container';
-    li.appendChild(childContainer);
-
-    for(var i = 0; i < treeItem.children.length; i++) {
-      console.log(treeItem.children[i].text);
-      buildTree(treeItem.children[i], childContainer);     
+    //root
+    if (level == 1) {
+        li.className += ' IsRoot';
+        li.className += ' ExpandOpen';  
+        li.className += ' IsLast'; 
+    }
+    else {
+        li.className += ' ExpandClosed';  
+        //li.className += ' ExpandOpen';  
     }
 
-  }
-  else {
-    li.className = 'isLast';
-    return;
-  }
-/*
-var content = document.createTextNode(tree.text);
-  ul.appendChild(content);
-  window.document.body.appendChild(ul);
-*/
+    if (isLast) {
+        li.className += ' IsLast'
+    }
+
+
+    var divExp = document.createElement('div');
+    divExp.className = 'Expand';
+    var divContent = document.createElement('div');
+    divContent.className = 'Content';
+    divContent.appendChild(document.createTextNode(treeItem.text));
+    li.appendChild(divExp);
+    li.appendChild(divContent);
+    htmlEl.appendChild(li);
+
+    if (treeItem.children) {
+        console.log(treeItem.children.length);
+        var childContainer = document.createElement('ul');
+        childContainer.className = 'Container';
+        li.appendChild(childContainer);
+
+        for(var i = 0; i < treeItem.children.length; i++) {
+            console.log(treeItem.children[i].text);
+            if (i == treeItem.children.length - 1 ) {
+            isLast = true;
+            }
+            else {
+                isLast = false; 
+            }
+            
+            buildTree(treeItem.children[i], childContainer, level, isLast);     
+        }
+    }
+    else {
+        li.className += ' isLast';
+        li.className += ' ExpandLeaf';
+        return;
+    }
 }
 
 startBuildingTree(tree);
