@@ -8,35 +8,19 @@ function startBuildingTree(root) {
     var ul = document.createElement('ul');
     ul.className = 'Container';
   
-    buildTree(root, ul, 0);
+    var rootLi = buildTree(root, ul);
+    rootLi.className = 'Node IsRoot ExpandOpen'
     document.body.appendChild(ul);
 }
 
-function buildTree(treeItem, htmlEl, level, isLast) {
-    level++;
-
+function buildTree(treeItem, htmlEl) {
     var li = document.createElement('li');
     li.className = 'Node';
-  
-    //root
-    if (level == 1) {
-        li.className += ' IsRoot';
-        li.className += ' ExpandOpen';  
-        li.className += ' IsLast'; 
-    }
-    else {
-        li.className += ' ExpandClosed';  
-        //li.className += ' ExpandOpen';  
-    }
-
-    if (isLast) {
-        li.className += ' IsLast'
-    }
-
-
+    li.className += ' ExpandClosed';  
+    
     var divExp = document.createElement('div');
-    divExp.className = 'Expand';
     var divContent = document.createElement('div');
+    divExp.className = 'Expand';
     divContent.className = 'Content';
     divContent.appendChild(document.createTextNode(treeItem.text));
     li.appendChild(divExp);
@@ -44,28 +28,21 @@ function buildTree(treeItem, htmlEl, level, isLast) {
     htmlEl.appendChild(li);
 
     if (treeItem.children) {
-        console.log(treeItem.children.length);
         var childContainer = document.createElement('ul');
         childContainer.className = 'Container';
         li.appendChild(childContainer);
 
-        for(var i = 0; i < treeItem.children.length; i++) {
-            console.log(treeItem.children[i].text);
+        for(var i = 0; i < treeItem.children.length; i++) {  
+            var childLi = buildTree(treeItem.children[i], childContainer);
             if (i == treeItem.children.length - 1 ) {
-            isLast = true;
+              childLi.className += ' IsLast'
             }
-            else {
-                isLast = false; 
-            }
-            
-            buildTree(treeItem.children[i], childContainer, level, isLast);     
         }
     }
     else {
-        li.className += ' isLast';
         li.className += ' ExpandLeaf';
-        return;
     }
+    return li;
 }
 
 startBuildingTree(tree);
