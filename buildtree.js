@@ -9,7 +9,7 @@ function startBuildingTree(root) {
     ul.className = 'Container';
   
     var rootLi = buildTree(root, ul);
-    rootLi.className = 'Node IsRoot ExpandOpen'
+    rootLi.className = 'Node IsRoot ExpandOpen IsLast'
     document.body.appendChild(ul);
 }
 
