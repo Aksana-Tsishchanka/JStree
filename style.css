@@ -1,3 +1,19 @@
+body {
+	font-family: 'Trocchi', serif; 
+}
+h1 {
+	color: #7c795d; 
+	font-size: 45px; 
+	font-weight: normal; 
+	line-height: 48px; 
+	margin: 0; 
+}
+div#tree {
+    width: 20%;
+	border-width:1px;
+    border-style:dashed;
+	border-color: green;
+}
 .Container {
     padding: 0;
     margin: 0;

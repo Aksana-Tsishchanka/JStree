@@ -10,14 +10,15 @@ function startBuildingTree(root) {
   
     var rootLi = buildTree(root, ul);
     rootLi.className = 'Node IsRoot ExpandOpen IsLast'
-    document.body.appendChild(ul);
+    var div = document.getElementById("tree");
+    div.appendChild(ul);
 }
 
 function buildTree(treeItem, htmlEl) {
     var li = document.createElement('li');
     li.className = 'Node';
     li.className += ' ExpandClosed';  
-    
+    //li.className += ' ExpandOpen';
     var divExp = document.createElement('div');
     var divContent = document.createElement('div');
     divExp.className = 'Expand';
@@ -46,5 +47,22 @@ function buildTree(treeItem, htmlEl) {
 }
 
 startBuildingTree(tree);
+
+addEventListener("click", function(event) {
+
+    event = event || window.event;
+        
+    var clickedElem = event.target || event.srcElement;
+    var parentElem = clickedElem.parentNode;
+
+    if (parentElem.classList.contains('ExpandOpen')) {
+        var newClass = parentElem.className.replace('ExpandOpen', 'ExpandClosed'); 
+        parentElem.className = newClass;
+    }
+    else if (parentElem.classList.contains('ExpandClosed')) {
+        var newClass = parentElem.className.replace('ExpandClosed', 'ExpandOpen'); 
+        parentElem.className = newClass;
+    }
+});
 
 
