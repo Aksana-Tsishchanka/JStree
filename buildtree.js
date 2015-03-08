@@ -53,6 +53,7 @@ addEventListener("click", function(event) {
     event = event || window.event;
         
     var clickedElem = event.target || event.srcElement;
+    
     var parentElem = clickedElem.parentNode;
 
     if (parentElem.classList.contains('ExpandOpen')) {
@@ -63,6 +64,8 @@ addEventListener("click", function(event) {
         var newClass = parentElem.className.replace('ExpandClosed', 'ExpandOpen'); 
         parentElem.className = newClass;
     }
+    //stop 
+    event.stopPropagation ? event.stopPropagation() : (event.cancelBubble=true);
 });
 
 
